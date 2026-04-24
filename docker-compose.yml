@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  # Servidor Web (Apache + PHP) para Kitty Beauty
+  web:
+    build: .
+    container_name: kitty_web
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www/html
+    networks:
+      - kitty-net
+    depends_on:
+      - db
+
+  # Base de Datos (MariaDB)
+  db:
+    image: mariadb:latest
+    container_name: kitty_db
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: kitty_beauty
+    networks:
+      - kitty-net
+    volumes:
+      - db_data:/var/lib/mysql
+
+  # Interfaz visual para la Base de Datos
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: kitty_pma
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: db
+      PMA_USER: root
+      PMA_PASSWORD: root
+    networks:
+      - kitty-net
+    depends_on:
+      - db
+
+networks:
+  kitty-net:
+
+volumes:
+  db_data:
