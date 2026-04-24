@@ -1,0 +1,58 @@
+/* Reset básico */
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #fce4ec; /* Fondo rosa pastel general */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    overflow: hidden; /* Evita scrolls por los pétalos */
+}
+
+/* Contenedor del Formulario - Alta prioridad */
+.contenedor-formulario {
+    background-color: rgba(255, 255, 255, 0.96); /* Casi blanco sólido */
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(216, 27, 96, 0.2);
+    width: 90%;
+    max-width: 380px;
+    position: relative;
+    z-index: 100; /* Asegura que el texto esté siempre arriba */
+}
+
+/* Estilos de texto y formulario */
+h1 { color: #d81b60; text-align: center; margin-bottom: 20px; font-size: 24px; }
+label { display: block; margin-bottom: 5px; color: #ad1457; font-weight: bold; font-size: 14px; }
+input, select { width: 100%; padding: 10px; margin-bottom: 15px; border: 2px solid #f8bbd0; border-radius: 10px; box-sizing: border-box; }
+button { width: 100%; padding: 12px; background-color: #d81b60; color: white; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+button:hover { background-color: #ad1457; transform: scale(1.02); }
+
+/* Ajuste de tus Ramas de Sakura (Ubicación: Esquina Superior Derecha) */
+.ramas-sakura {
+    position: fixed;
+    top: -30px;      /* Las pegamos arriba */
+    right: -50px;     /* Y a la derecha */
+    width: 1000px;     /* Tamaño grande para que enmarquen */
+    height: auto;
+    z-index: 10;      /* Por encima del fondo, pero DETRÁS del formulario */
+    opacity: 0.9;     /* Un toque suave */
+    pointer-events: none; /* No interfieren con el mouse */
+}
+
+/* Pétalos Cayendo (Mantenemos el JS separado) */
+.sakura {
+    position: fixed;
+    top: -10%;
+    z-index: 50; /* Entre el árbol y el formulario */
+    background-color: #ffb7c5;
+    border-radius: 100% 0% 100% 0%;
+    pointer-events: none;
+    animation: fall linear infinite;
+}
+
+@keyframes fall {
+    0% { top: -10%; transform: rotate(0deg); }
+    100% { top: 110%; transform: translateX(100px) rotate(360deg); }
+}
