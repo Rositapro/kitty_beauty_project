@@ -1,55 +1,99 @@
 <?php
-// 1. Incluimos la conexión
 include 'db.php';
 
-// 2. Recibimos los datos que mandó el formulario (index.php)
+// Recibimos los datos
 $nombre = $_POST['nombre'];
 $telefono = $_POST['telefono'];
 $id_servicio = $_POST['id_servicio'];
 $fecha = $_POST['fecha'];
 $hora = $_POST['hora'];
 
-// --- LÓGICA DE PROGRAMACIÓN ---
+// 1. Guardamos al cliente (Usando tus nombres de columna reales)
+$sql_cliente = "INSERT INTO clientes (nombre_completo, telefono) VALUES ('$nombre', '$telefono')";
 
-// PASO A: Verificar disponibilidad (Sentencia IF/ELSE y Base de Datos)
-// Consultamos si ya existe una cita en esa misma fecha y hora
-$sql_check = "SELECT * FROM citas WHERE fecha_cita = '$fecha' AND hora_cita = '$hora'";
-$result_check = $conn->query($sql_check);
+if ($conn->query($sql_cliente) === TRUE) {
+    $id_cliente = $conn->insert_id;
 
-if ($result_check->num_rows > 0) {
-    // CASO 1: El horario está ocupado
-    echo "<h1>❌ Lo sentimos, ese horario ya está reservado.</h1>";
-    echo "<p>Por favor intenta con otra hora.</p>";
-    echo "<a href='index.php'>Volver al formulario</a>";
+    // 2. Guardamos la cita (id_cliente, id_servicio, fecha_cita, hora_cita, estado)
+    $sql_cita = "INSERT INTO citas (id_cliente, id_servicio, fecha_cita, hora_cita, estado) 
+                 VALUES ($id_cliente, $id_servicio, '$fecha', '$hora', 'Pendiente')";
 
-} else {
-    // CASO 2: El horario está libre, procedemos a guardar
-    
-    // Primero insertamos al cliente (o buscamos si ya existe)
-    // Para esta práctica, insertaremos uno nuevo siempre para simplificar
-    $sql_cliente = "INSERT INTO clientes (nombre_completo, telefono) VALUES ('$nombre', '$telefono')";
-    
-    if ($conn->query($sql_cliente) === TRUE) {
-        // Obtenemos el ID que la base de datos le acaba de asignar a este cliente nuevo
-        $id_cliente_nuevo = $conn->insert_id;
-
-        // Ahora sí, guardamos la CITA vinculando Cliente + Servicio
-        $sql_cita = "INSERT INTO citas (id_cliente, id_servicio, fecha_cita, hora_cita) 
-                     VALUES ('$id_cliente_nuevo', '$id_servicio', '$fecha', '$hora')";
-
-        if ($conn->query($sql_cita) === TRUE) {
-            echo "<h1>✅ ¡Cita Agendada con Éxito!</h1>";
-            echo "<p>Gracias <strong>$nombre</strong>, tu cita ha quedado registrada.</p>";
-            echo "<a href='index.php'>Agendar otra cita</a>";
-        } else {
-            echo "Error al guardar la cita: " . $conn->error;
-        }
-
+    if ($conn->query($sql_cita) === TRUE) {
+        $mostrar_exito = true;
     } else {
-        echo "Error al registrar tus datos: " . $conn->error;
+        echo "Error en cita: " . $conn->error; exit;
     }
+} else {
+    echo "Error en cliente: " . $conn->error; exit;
 }
-
-// Cerramos la conexión
-$conn->close();
 ?>
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Cita Agendada! | Kitty Beauty</title>
+    <link rel="stylesheet" href="css/estilos.css">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        .exito-card {
+            text-align: center;
+            padding: 50px 30px;
+            max-width: 450px;
+            margin: auto;
+            border-radius: 40px; /* Bordes redondeados como en tu foto */
+        }
+        .flower-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+            display: block;
+        }
+        h2 {
+            font-family: 'Great Vibes', cursive;
+            color: #d81b60;
+            font-size: 4rem; /* Tamaño grande como en tu diseño */
+            margin-bottom: 15px;
+        }
+        p {
+            color: #37474f;
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+        }
+        .btn-principal {
+            display: block;
+            background: #d81b60;
+            color: white;
+            padding: 15px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            transition: 0.3s;
+        }
+        .btn-principal:hover { background: #ad1457; }
+        
+        .link-otra {
+            color: #ad1457;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="sakura-container" id="sakura-container"></div>
+    
+    <div class="contenedor-formulario exito-card">
+        <span class="flower-icon">🌸</span>
+        <h2>¡Cita Agendada!</h2>
+        <p>Gracias <strong><?php echo htmlspecialchars($nombre); ?></strong>, tu espacio ha sido reservado.</p>
+        
+        <a href="index.html" class="btn-principal">Volver al Inicio</a>
+        <a href="index.php" class="link-otra">Agendar otra cita</a>
+    </div>
+
+    <script src="js/sakura.js"></script>
+</body>
+</html>

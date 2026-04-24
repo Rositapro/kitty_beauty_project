@@ -1,22 +1,29 @@
 <?php
-// 1. Incluimos la conexión a la BD
 include 'db.php';
 
-// 2. Recibimos los datos ocultos que mandó el botón
-$id_cita = $_POST['id_cita'];
-$nuevo_estado = $_POST['nuevo_estado'];
+// Verificamos que los parámetros lleguen por la URL
+if (isset($_GET['id']) && isset($_GET['estado'])) {
+    
+    $id = intval($_GET['id']); 
+    $nuevo_estado = $_GET['estado'];
 
-// 3. SENTENCIA SQL (UPDATE): Cambiamos el estado de esa cita en específico
-$sql = "UPDATE citas SET estado = '$nuevo_estado' WHERE id_cita = $id_cita";
+    // SQL basado exactamente en tus tablas de phpMyAdmin
+    $sql = "UPDATE citas SET estado = '$nuevo_estado' WHERE id_cita = $id";
 
-if ($conn->query($sql) === TRUE) {
-    // Si la actualización sale bien, redireccionamos automáticamente de vuelta al panel
+    try {
+        if ($conn->query($sql) === TRUE) {
+            // Regresar al panel de inmediato
+            header("Location: ver_citas.php");
+            exit(); 
+        } else {
+            echo "Error al actualizar: " . $conn->error;
+        }
+    } catch (mysqli_sql_exception $e) {
+        echo "Error de Base de Datos: " . $e->getMessage();
+        echo "<br><br><a href='ver_citas.php'>Regresar al panel</a>";
+    }
+} else {
     header("Location: ver_citas.php");
     exit();
-} else {
-    // Si hay error, lo mostramos
-    echo "Error al actualizar el estado: " . $conn->error;
 }
-
-$conn->close();
 ?>

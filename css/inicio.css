@@ -1,0 +1,208 @@
+/* Configuración General y Paleta */
+:root {
+    --pink-light: #fce4ec;
+    --pink-accent: #f8bbd0;
+    --pink-medium: #f06292;
+    --pink-dark: #ad1457;
+    --text-dark: #37474f;
+    --text-light: #616161;
+    --glass-bg: rgba(255, 255, 255, 0.4);
+    --glass-border: rgba(255, 255, 255, 0.6);
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    cursor: url('../assets/sakura-main.png'), auto;
+}
+
+a, button, .btn-primary, .nav-links a, .nav-logo, .service-card, .photo, .map-container {
+    cursor: url('../assets/sakura-hover.png'), pointer !important;
+}
+
+body {
+    font-family: 'Quicksand', sans-serif;
+    color: var(--text-dark);
+    min-height: 100vh;
+    overflow-x: hidden;
+    background: linear-gradient(rgba(252, 228, 236, 0.6), rgba(252, 228, 236, 0.6)), 
+                url('https://images.unsplash.com/photo-1522383225653-ed111181a951?auto=format&fit=crop&q=80&w=1920') no-repeat center center fixed;
+    background-size: cover;
+    line-height: 1.6;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+p { user-select: text; }
+
+.cursive { font-family: 'Great Vibes', cursive; }
+.text-center { text-align: center; }
+
+/* Estilos de Efecto Vidrio */
+.glass-effect {
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+}
+
+.glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-radius: 20px;
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 8px 32px 0 rgba(173, 20, 87, 0.1);
+}
+
+/* Barra de Navegación */
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 70px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 50px;
+    z-index: 1000;
+}
+
+.nav-logo {
+    font-family: 'Great Vibes', cursive;
+    font-size: 2.5rem;
+    color: var(--pink-dark);
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--text-dark);
+    font-weight: 500;
+}
+
+/* Seccion Hero */
+.hero {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.main-title {
+    font-family: 'Great Vibes', cursive;
+    font-size: 6rem;
+    color: var(--pink-dark);
+}
+
+.btn-primary {
+    display: inline-block;
+    padding: 12px 30px;
+    background-color: var(--pink-medium);
+    color: white;
+    text-decoration: none;
+    border-radius: 25px;
+    transition: 0.3s;
+}
+
+.btn-primary:hover {
+    background-color: var(--pink-dark);
+    transform: translateY(-2px);
+}
+
+/* Secciones */
+.section-container {
+    padding: 80px 50px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.section-title {
+    font-size: 4rem;
+    color: var(--pink-dark);
+    margin-bottom: 40px;
+}
+
+.content-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+}
+
+/* Catálogo */
+.catalogue-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+}
+
+.service-card {
+    overflow: hidden;
+    transition: 0.3s;
+}
+
+.service-card:hover { transform: translateY(-10px); }
+
+.service-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+/* Garantía */
+.guarantee-box {
+    text-align: center;
+    padding: 60px 40px;
+    border: 2px solid var(--pink-accent);
+    background: rgba(255, 255, 255, 0.5);
+    margin: 40px 0;
+}
+
+.guarantee-title { font-size: 3.5rem; color: var(--pink-dark); }
+.guarantee-text { font-size: 1.3rem; font-style: italic; }
+
+/* Contacto y Mapa */
+.contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+}
+
+.map-container {
+    width: 100%;
+    border-radius: 15px;
+    overflow: hidden;
+    border: 2px solid var(--pink-accent);
+}
+
+/* Footer */
+.main-footer {
+    text-align: center;
+    padding: 30px;
+    background-color: var(--pink-light);
+    color: var(--pink-dark);
+}
+
+/* Animaciones y Pétalos */
+.sakura-container {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; z-index: 999;
+}
+
+.petal, .sakura {
+    position: absolute;
+    width: 22px; 
+    height: 22px;
+    background: #ffb7c5; 
+    border-radius: 150%
